@@ -1,25 +1,27 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 export default function Player() {
-  const [playerName, setPlayerName] = useState("");
-  const [showPlayerName, setShowPlayerName] = useState(false);
+  let playerName = useRef();
 
-  function handlePlayerNameChange(event) {
-    setShowPlayerName(false);
-    setPlayerName(event.target.value);
-  }
+  const [editedPlayerName, setEditedPlayerName] = useState("");
+  // const [showPlayerName, setShowPlayerName] = useState(false);
+
+  // function handlePlayerNameChange(event) {
+  //   setShowPlayerName(false);
+  //   setPlayerName(event.target.value);
+  // }
 
   function handlePlayerName() {
-    setShowPlayerName(true);
+    setEditedPlayerName(playerName.current.value);
+    playerName.current.value = '';
   }
   return (
     <section id="player">
-      <h2>Welcome {showPlayerName ? playerName : "unknown entity"}</h2>
+      <h2>Welcome {editedPlayerName ? playerName : "unknown entity"}</h2>
       <p>
         <input
+          ref={playerName}
           type="text"
-          onChange={handlePlayerNameChange}
-          value={playerName}
         />
         <button onClick={handlePlayerName}>Set Name</button>
       </p>
